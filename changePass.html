@@ -18,7 +18,7 @@
                         <li><a href="work.html">Projects</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="contact.html">Contact</a></li>
-                        <li><a href="dashboard.html">Profile</a></li>
+                        <li><a href="dashboard.html">Profile</a></li><!-- Need to block link to dashboard if user does not have an account/ not logged in yet-->
                     </ul>
                 </nav>
 
@@ -34,6 +34,11 @@
             
             <label>Confirm Password: </label>
             <input type="password" placeholder="Confirm Password">
+
+            <!-- Redirect to dashboard -->
+            <button onclick="window.location.href='dashboard.html'">
+                Confirm
+            </button>
         </div>
     </body>
 </html>

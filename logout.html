@@ -18,7 +18,7 @@
                     <li><a href="work.html">Projects</a></li>
                     <li><a href="about.html">About</a></li>
                     <li><a href="contact.html">Contact</a></li>
-                    <li><a href="dashboard.html">Profile</a></li>
+                    <li><a href="dashboard.html">Profile</a></li><!-- Need to block link to dashboard if user does not have an account/ not logged in yet-->
                 </ul>
             </nav>
 
@@ -26,14 +26,13 @@
         </div>
 
         <div>
-            <p>
-                <label>Do you want to log out of your account?</label>
-                <a href="registration.html">Confirm</a>
-            </p>
+            <button onclick="window.location.href='registration.html'">
+                Confirm
+            </button>
 
-            <p>
-                <a href="dashboard.html">Cancel</a>
-            </p>
+            <button onclick="window.location.href='dashboard.html'">
+                Cancel
+            </button>
         </div>
     </body>
 </html>

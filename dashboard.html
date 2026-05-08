@@ -21,7 +21,7 @@
                         <li><a href="work.html">Projects</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="contact.html">Contact</a></li>
-                        <li><a href="dashboard.html">Profile</a></li>
+                        <li><a href="dashboard.html">Profile</a></li> <!-- Need to block link to dashboard if user does not have an account/ not logged in yet-->
                     </ul>
                 </nav>
 
@@ -29,7 +29,7 @@
             </div>
 
             <div><!-- Log Out Button -->
-                <a href="logout.html">Log Out</a>
+                <button onclick="window.location.href='logout.html'">Log Out</button>
             </div>
 
             <div> <!-- User Details -->
@@ -39,7 +39,12 @@
                 <label>Account #: </label>
                 <label>Email: </label>
                 <label>Registration: </label>
-                <label>Change Password: </label>
+
+                <p>
+                    <button onclick="window.location.href='changePass.html'">
+                        Change Password:
+                    </button>
+                </p>
             </div>
         </header>
     </body>
