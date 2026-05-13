@@ -26,13 +26,38 @@
                         <li><a href="work.html">Projects</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="contact.html">Contact</a></li>
-                        <li><a href="dashboard.html">Profile</a></li> <!-- Need to block link to dashboard if user does not have an account/ not logged in yet-->
                     </ul>
                 </nav>
 
                 <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
             </div>
         </header>
+
+        <!-- Profile Menu -->
+        <div class="profile-menu" id="profileMenu">
+            <img src="" alt="Profile">
+
+            <h3 id="fullName"></h3>
+
+            <p>
+                <strong>Username: </strong>
+                <span id="username"></span>
+            </p>
+
+            <p>
+                <strong>Email: </strong>
+                <span id="email"></span>
+            </p>
+            
+            <p>
+                <strong>Date Registered:</strong>
+                <span id="dateRegistered"></span>
+            </p>
+
+             <button type="button" onclick="window.location.href='changePass.html'">
+                Change Password
+            </button>
+        </div>
         
         <!--About page test-->
         <main>
@@ -48,24 +73,6 @@
 						<p class="small">It is best known for [achievement] because of its [reason], but it doesn’t stop there—the company continues to grow and enhance its services to better meet clients’ needs.</p>
 					</div>
 				</div>
-
-                <!--Project-->
-            <section id="projects" class="projects">
-                <div class="container">
-                    <h2 class="section-title">PROJECTS</h2>
-
-                    <div class="slider-row row1">
-                        <div class="slider-track" id="slider1"></div>
-                    </div>
-                    <div class="slider-row row2">
-                        <div class="slider-track" id="slider2"></div>
-                    </div>
-                    <div class="slider-row row3">
-                        <div class="slider-track" id="slider3"></div>
-                    </div>
-                </div>
-            </section>
-         <script src="home.js"></script>
         </main>
     </body>
 </html>

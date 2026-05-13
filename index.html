@@ -28,14 +28,37 @@
                         <li><a href="work.html">Work</a></li>
                         <li><a href="about.html">About</a></li>
                         <li><a href="contact.html">Contact</a></li>
-                        <li><a href="dashboard.html">Profile</a></li><!-- Need to block link to dashboard if user does not have an account/ not logged in yet-->
                     </ul>
                 </nav>
 
                 <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
             </div>
         <header>
+        
+        <div class="profile-menu" id="profileMenu"><!-- Profile Menu -->
+            <img src="" alt="Profile">
+
+            <h3 id="fullName"></h3>
+
+            <p>
+                <strong>Username: </strong>
+                <span id="username"></span>
+            </p>
+
+            <p>
+                <strong>Email: </strong>
+                <span id="email"></span>
+            </p>
             
+            <p>
+                <strong>Date Registered:</strong>
+                <span id="dateRegistered"></span>
+            </p>
+
+            <button type="button" onclick="window.location.href='changePass.html'">Change Password</button>
+        </div>
+
+
         <main>
             <section id="home" class="hero">
                 <div class="hero-bg">
