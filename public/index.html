@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="home.css" />
+    <title>ArkiTech</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <!-- Left Side: Menu Toggle -->
+        <button
+          class="menu-toggle-left"
+          id="menuToggle"
+          aria-label="Open Profile"
+        >
+          ☰
+        </button>
+
+        <!-- Right Side: Navigation -->
+        <nav class="nav">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="work.html">Work</a></li>
+            <li><a href="about.html">About</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- The Side Menu Drawer -->
+    <div class="side-menu" id="sideMenu">
+      <button class="close-btn" id="closeMenu">×</button>
+
+      <div class="profile-section-sidebar">
+        <img src="images/profile.png" alt="Profile" class="sidebar-avatar" />
+        <h3 id="fullName">User Profile</h3>
+      </div>
+
+      <div class="info-group-sidebar">
+        <p><strong>Username:</strong> <span id="username">Admin_User</span></p>
+        <p><strong>Email:</strong> <span id="email">user@example.com</span></p>
+        <p>
+          <strong>Date Registered:</strong>
+          <span id="dateRegistered">2026-05-13</span>
+        </p>
+      </div>
+
+      <button
+        class="btn primary"
+        style="width: 100%; margin-top: 20px"
+        onclick="window.location.href = 'changePass.html'"
+      >
+        Change Password
+      </button>
+    </div>
+
+    <main>
+      <section id="home" class="hero">
+        <div class="hero-bg">
+          <img src="images/electrical_istallation.jpg" alt="hero background" />
+        </div>
+
+        <div class="container hero-content">
+          <div class="eyebrow">ArkiTech</div>
+          <h1>
+            Architectural & <span class="accent"> Engineering & Services</span>
+          </h1>
+          <p class="lead">
+            committed to helping clients bring their ideal home or space to
+            life. We deliver high-quality service and strive to accommodate your
+            needs as promptly and professionally as possible.
+          </p>
+          <p class="cta-row">
+            <a class="btn primary" href="calculator.html"
+              >Estimate Calculator</a
+            >
+            <a class="btn ghost" href="about.html">Get in touch</a>
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script src="auth.js"></script>
+    <script>
+      const menuToggle = document.getElementById("menuToggle");
+      const closeMenu = document.getElementById("closeMenu");
+      const sideMenu = document.getElementById("sideMenu");
+
+      menuToggle.addEventListener("click", () => {
+        sideMenu.classList.add("active");
+      });
+
+      closeMenu.addEventListener("click", () => {
+        sideMenu.classList.remove("active");
+      });
+
+      // Close when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!sideMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+          sideMenu.classList.remove("active");
+        }
+      });
+    </script>
+  </body>
+</html>

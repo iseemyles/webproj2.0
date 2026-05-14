@@ -1,0 +1,29 @@
+{
+  "name": "webproj2.0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iseemyles/webproj2.0.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/iseemyles/webproj2.0/issues"
+  },
+  "homepage": "https://github.com/iseemyles/webproj2.0#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "mysql2": "^3.22.3"
+  }
+}

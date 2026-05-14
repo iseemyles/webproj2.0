@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="home.css" />
+
+    <title>Log In Account</title>
+  </head>
+  <body>
+    <div>
+      <!--Company Logo-->
+      <a class="brand" href="#">
+        <img src="images/RAW.png" alt="logo" />
+        <span>RAW</span>
+      </a>
+
+      <!--Navigation Bar-->
+      <nav class="nav" id="nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="work.html">Projects</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </nav>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
+        ☰
+      </button>
+    </div>
+
+    <div>
+      <form
+        onsubmit="
+          event.preventDefault();
+          handleLogin();
+        "
+      >
+        <label>Enter Email:</label>
+        <input type="email" id="txtEmail" placeholder="Email" required />
+
+        <label>Enter Password:</label>
+        <input
+          type="password"
+          id="txtPassword"
+          placeholder="Password"
+          required
+        />
+
+        <!-- Button -->
+        <button type="submit">Sign In</button>
+        <p>
+          Don't have an account?
+          <button
+            type="button"
+            onclick="window.location.href = 'registration.html'"
+          >
+            Sign up
+          </button>
+        </p>
+
+        <p>
+          Forgot Password?
+          <button
+            type="button"
+            onclick="window.location.href = 'changePass.html'"
+          >
+            Change password
+          </button>
+        </p>
+      </form>
+    </div>
+
+    <script src="auth.js"></script>
+  </body>
+</html>

@@ -26,13 +26,15 @@
         </div>
 
         <div>
-            <button type="button" onclick="window.location.href='registration.html'">
+            <button type="button" onclick="handleLogout()">
                 Confirm
             </button>
 
-            <button type="button" onclick="window.location.href='dashboard.html'">
+            <button type="button" onclick="window.history.back()">
                 Cancel
             </button>
         </div>
-    </body>
+
+    <script src="auth.js"></script>
+</body>
 </html>

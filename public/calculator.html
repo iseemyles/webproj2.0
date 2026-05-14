@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>RAW Cost Estimation Calculator</title>
+    <link rel="stylesheet" href="Calculator.css" />
+    <link rel="stylesheet" href="home.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <!-- Left Side: Menu Toggle -->
+        <button
+          class="menu-toggle-left"
+          id="menuToggle"
+          aria-label="Open Profile"
+        >
+          ☰
+        </button>
+
+        <!-- Right Side: Navigation -->
+        <nav class="nav">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="work.html">Work</a></li>
+            <li><a href="about.html">About</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <div class="side-menu" id="sideMenu">
+      <button class="close-btn" id="closeMenu">×</button>
+
+      <div class="profile-section-sidebar">
+        <img src="images/profile.png" alt="Profile" class="sidebar-avatar" />
+        <h3 id="fullName">User Profile</h3>
+      </div>
+
+      <div class="info-group-sidebar">
+        <p><strong>Username:</strong> <span id="username">Admin_User</span></p>
+        <p><strong>Email:</strong> <span id="email">user@example.com</span></p>
+        <p>
+          <strong>Date Registered:</strong>
+          <span id="dateRegistered">2026-05-13</span>
+        </p>
+      </div>
+
+      <button
+        class="btn primary"
+        style="width: 100%; margin-top: 20px"
+        onclick="window.location.href = 'changePass.html'"
+      >
+        Change Password
+      </button>
+    </div>
+
+    <main class="calc-main">
+      <section class="calc-top">
+        <h1>RAW Cost Estimation<br /><span>Calculator</span></h1>
+        <div class="calc-desc">
+          Estimate your construction project cost. Enter your details below.
+        </div>
+      </section>
+
+      <section class="calc-body">
+        <div class="calc-left">
+          <h2>1. Area (sqm)</h2>
+          <input
+            id="areaInput"
+            class="input"
+            type="number"
+            min="1"
+            placeholder="Enter area in sqm"
+          />
+
+          <h2>2. Construction Type</h2>
+          <select id="constructionType" class="input select">
+            <option value="residential">Residential</option>
+            <option value="commercial">Commercial</option>
+            <option value="industrial">Industrial</option>
+            <option value="renovation">Renovation</option>
+          </select>
+
+          <h2>3. Number of Storeys</h2>
+          <input
+            id="storeysInput"
+            class="input"
+            type="number"
+            min="1"
+            placeholder="Number of storeys"
+          />
+
+          <h2>4. Type of Finish</h2>
+          <div class="finish-types" id="finishTypesContainer">
+            <!-- Dynamic Finish Options will be injected here -->
+          </div>
+
+          <div class="actions">
+            <button id="estimateBtn" class="btn primary">Estimate</button>
+            <button id="clearBtn" class="btn ghost">Clear</button>
+          </div>
+        </div>
+
+        <div class="calc-right">
+          <div class="result-card">
+            <div class="result-label">Estimated Project Cost</div>
+            <div id="totalValue" class="result-value">₱0.00</div>
+            <div class="result-hint">Total estimate based on your inputs.</div>
+            <button id="printBtn" class="btn print-btn">Print Estimate</button>
+          </div>
+
+          <div class="estimate-details" id="estimatePrint">
+            <h3>Estimate Details</h3>
+            <pre id="printDetails">No estimate calculated yet.</pre>
+          </div>
+
+          <aside class="calc-aside">
+            <h3>Need a Detailed Quote?</h3>
+            <p>
+              Our estimates are based on general industry rates. For a more
+              precise breakdown, please contact our engineers.
+            </p>
+            <a class="btn outline" href="contact.html">Contact Us</a>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Admin Management Panel -->
+      <section
+        id="adminPanel"
+        class="container"
+        style="
+          display: none;
+          margin-top: 40px;
+          padding: 20px;
+          border: 2px solid #333;
+          border-radius: 8px;
+          background: #f9f9f9;
+        "
+      >
+        <h2 style="color: #333; margin-bottom: 15px">
+          Admin: Manage Finish Rates
+        </h2>
+
+        <!-- Existing Rates List -->
+        <div id="adminRateList">
+          <!-- Rates will be injected here by JS -->
+        </div>
+        <button
+          class="btn primary"
+          onclick="updateRates()"
+          style="margin-top: 10px"
+        >
+          Save Updated Rates
+        </button>
+
+        <!-- Add New Rate Form -->
+        <hr style="margin: 30px 0" />
+        <h3 style="color: #333; margin-bottom: 15px">Add New Finish Type</h3>
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+            max-width: 400px;
+          "
+        >
+          <input
+            type="text"
+            id="newFinishType"
+            placeholder="Unique ID (e.g. luxury)"
+          />
+          <input
+            type="text"
+            id="newDisplayName"
+            placeholder="Display Name (e.g. High-End Luxury)"
+          />
+          <input type="number" id="newMinRate" placeholder="Min Rate per sqm" />
+          <input type="number" id="newMaxRate" placeholder="Max Rate per sqm" />
+          <input
+            type="text"
+            id="newImageUrl"
+            placeholder="Image URL (e.g. images/luxury.jpg)"
+          />
+          <button class="btn primary" onclick="addNewRate()">
+            Add New Type
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      function qs(id) {
+        return document.getElementById(id);
+      }
+      const estimateBtn = qs("estimateBtn");
+      const clearBtn = qs("clearBtn");
+      const printBtn = qs("printBtn");
+
+      let selectedFinish = null;
+
+      async function loadRates() {
+        try {
+          const response = await fetch("/api/finish-rates");
+          const rates = await response.json();
+
+          const container = document.getElementById("finishTypesContainer");
+          const adminRateList = document.getElementById("adminRateList");
+
+          if (container) container.innerHTML = "";
+          if (adminRateList) adminRateList.innerHTML = "";
+
+          rates.forEach((rate) => {
+            if (container) {
+              const option = document.createElement("div");
+              option.className = "finish-option";
+              option.dataset.type = rate.finish_type;
+              option.dataset.min = rate.min_rate;
+              option.dataset.max = rate.max_rate;
+
+              option.innerHTML = `
+              <img src="${rate.image_url || "images/RAW.png"}" alt="${rate.display_name}" class="finish-img">
+              <div class="finish-label">${rate.display_name}</div>
+              <div class="finish-rate">₱${parseInt(rate.min_rate).toLocaleString()} - ₱${parseInt(rate.max_rate).toLocaleString()}/sqm</div>
+            `;
+
+              option.addEventListener("click", function () {
+                document
+                  .querySelectorAll(".finish-option")
+                  .forEach((o) => o.classList.remove("selected"));
+                this.classList.add("selected");
+                selectedFinish = {
+                  type: this.dataset.type,
+                  min: parseInt(this.dataset.min),
+                  max: parseInt(this.dataset.max),
+                };
+              });
+
+              option.addEventListener("mouseenter", function () {
+                const rateDiv = this.querySelector(".finish-rate");
+                if (rateDiv) rateDiv.style.display = "block";
+              });
+              option.addEventListener("mouseleave", function () {
+                const rateDiv = this.querySelector(".finish-rate");
+                if (rateDiv) rateDiv.style.display = "";
+              });
+
+              container.appendChild(option);
+            }
+
+            if (adminRateList) {
+              const row = document.createElement("div");
+              row.className = "admin-rate-row";
+              row.dataset.id = rate.id;
+              row.style.marginBottom = "20px";
+              row.style.padding = "15px";
+              row.style.border = "1px solid #ddd";
+              row.style.background = "#fff";
+              row.style.display = "flex";
+              row.style.flexDirection = "column";
+              row.style.gap = "10px";
+              row.innerHTML = `
+              <div style="display: flex; gap: 10px;">
+                <input type="text" class="name-input" value="${rate.display_name}" style="flex: 2;" title="Display Name">
+                <input type="number" class="min-input" value="${rate.min_rate}" style="flex: 1;" title="Min Rate">
+                <input type="number" class="max-input" value="${rate.max_rate}" style="flex: 1;" title="Max Rate">
+              </div>
+              <div style="display: flex; gap: 10px;">
+                <input type="text" class="img-input" value="${rate.image_url || ""}" style="flex: 1;" placeholder="Image URL">
+                <button class="btn outline" onclick="deleteRate(${rate.id})" style="color: red; border-color: red;">Delete</button>
+              </div>
+            `;
+              adminRateList.appendChild(row);
+            }
+          });
+        } catch (error) {
+          console.error("Error loading rates:", error);
+        }
+      }
+
+      function onEstimate() {
+        const area = parseFloat(qs("areaInput").value) || 0;
+        const storeys = parseInt(qs("storeysInput").value) || 1;
+        const constructionType = qs("constructionType").value;
+        if (!selectedFinish) {
+          alert("Please select a type of finish.");
+          return;
+        }
+        if (area <= 0 || storeys <= 0) {
+          alert("Please enter valid area and number of storeys.");
+          return;
+        }
+        const totalMin = area * storeys * selectedFinish.min;
+        const totalMax = area * storeys * selectedFinish.max;
+
+        if (totalMin === totalMax) {
+          qs("totalValue").textContent = `₱${totalMin.toLocaleString()}`;
+        } else {
+          qs("totalValue").textContent =
+            `₱${totalMin.toLocaleString()} - ₱${totalMax.toLocaleString()}`;
+        }
+
+        const details = `Construction Type: ${constructionType.charAt(0).toUpperCase() + constructionType.slice(1)}\nArea: ${area} sqm\nStoreys: ${storeys}\nFinish: ${selectedFinish.type.charAt(0).toUpperCase() + selectedFinish.type.slice(1)}\nEstimated Range: ₱${totalMin.toLocaleString()} - ₱${totalMax.toLocaleString()}`;
+        qs("printDetails").textContent = details;
+        document
+          .getElementById("estimatePrint")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+
+      async function updateRates() {
+        const rates = [];
+        document.querySelectorAll(".admin-rate-row").forEach((row) => {
+          rates.push({
+            id: row.dataset.id,
+            display_name: row.querySelector(".name-input").value,
+            min_rate: row.querySelector(".min-input").value,
+            max_rate: row.querySelector(".max-input").value,
+            image_url: row.querySelector(".img-input").value,
+          });
+        });
+        try {
+          const response = await fetch("/api/update-rates", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ rates }),
+          });
+          if (response.ok) {
+            alert("Rates updated successfully!");
+            loadRates();
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      async function addNewRate() {
+        const data = {
+          finish_type: qs("newFinishType").value,
+          display_name: qs("newDisplayName").value,
+          min_rate: qs("newMinRate").value,
+          max_rate: qs("newMaxRate").value,
+          image_url: qs("newImageUrl").value,
+        };
+        try {
+          const response = await fetch("/api/add-rate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+          if (response.ok) {
+            alert("Added!");
+            location.reload();
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      async function deleteRate(id) {
+        if (!confirm("Delete?")) return;
+        try {
+          await fetch(`/api/delete-rate/${id}`, { method: "DELETE" });
+          loadRates();
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      async function checkAdmin() {
+        const response = await fetch("/api/user");
+        const data = await response.json();
+        if (data.isAdmin) qs("adminPanel").style.display = "block";
+      }
+
+      function onClear() {
+        qs("areaInput").value = "";
+        qs("storeysInput").value = "";
+        document
+          .querySelectorAll(".finish-option")
+          .forEach((o) => o.classList.remove("selected"));
+        selectedFinish = null;
+        qs("totalValue").textContent = "₱0.00";
+      }
+
+      estimateBtn.addEventListener("click", onEstimate);
+      clearBtn.addEventListener("click", onClear);
+      printBtn.addEventListener("click", () => {
+        window.print();
+      });
+
+      loadRates();
+      checkAdmin();
+
+      const menuToggle = document.getElementById("menuToggle");
+      const closeMenu = document.getElementById("closeMenu");
+      const sideMenu = document.getElementById("sideMenu");
+      menuToggle.addEventListener("click", () =>
+        sideMenu.classList.add("active"),
+      );
+      closeMenu.addEventListener("click", () =>
+        sideMenu.classList.remove("active"),
+      );
+      document.addEventListener("click", (e) => {
+        if (!sideMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+          sideMenu.classList.remove("active");
+        }
+      });
+    </script>
+    <script src="auth.js"></script>
+  </body>
+</html>

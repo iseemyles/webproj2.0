@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="home.css">
-    <title>ArkiTech</title>
-</head>
-<body>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <header class="site-header">
+        <!--CSS-->
+        <link rel="stylesheet" href="home.css">
+
+        <title>ArkiTech</title>    
+        
+    </head>
+    <body>
+        <header class="site-header">
         <div class="container header-inner">
             <!-- Left Side: Menu Toggle -->
             <button class="menu-toggle-left" id="menuToggle" aria-label="Open Profile">☰</button>
@@ -44,24 +47,41 @@
         </button>
     </div>
 
-    <main>
-        <section id="home" class="hero">
-            <div class="hero-bg">
-                <img src="images/electrical_istallation.jpg" alt="hero background"/>
-            </div>
-
-            <div class="container hero-content">
-                <div class="eyebrow">ArkiTech</div>
-                <h1>Architectural & <span class="accent"> Engineering & Services</span></h1>
-                <p class="lead">committed to helping clients bring their ideal home or space to life. We deliver high-quality service and strive to accommodate your needs as promptly and professionally as possible. </p>
-                <p class="cta-row">
-                    <a class="btn primary" href="calculator.html">Estimate Calculator</a>
-                    <a class="btn ghost" href="about.html">Get in touch</a>  
-            </div>
-        </section>
-    </main>
-
-    <!-- JavaScript to handle the clicking -->
+        
+        <!--About page test-->
+        <main>
+            <section id="about" class="about container">
+				<div class="about-inner">
+					<div class="about-media">
+						<!--LOGO-->
+						<img src="images/RAW.png" alt="about"/>
+					</div>
+					<div class="about-copy">
+						<h2>About the Website</h2>
+						<p> RAW Architectural & Engineering began on [date], led by its founder, [founder]. The company offers a range of services, including [name], [name], and [name].</p>
+						<p class="small">It is best known for [achievement] because of its [reason], but it doesn’t stop there—the company continues to grow and enhance its services to better meet clients’ needs.</p>
+					</div>
+				</div>
+        </main>
+        <section id="contact" class="contact container">
+				<h2>Contact</h2>
+				<div class="contact-grid">
+					<div class="contact-card">
+						<h3>Visit us</h3>
+						<p>LAPU - LAPU EXAMPLE</p>
+					</div>
+					<div class="contact-card">
+						<h3>Email</h3>
+						<p><a href="">RAW@GMAIL.COM</a></p>
+					</div>
+					<div class="contact-card">
+						<h3>Let's chat</h3>
+						<p><a class="btn" href="#">Get in touch</a></p>
+					</div>
+				</div>
+			</section>
+    </body>
+    <script src="auth.js"></script>
     <script>
         const menuToggle = document.getElementById('menuToggle');
         const closeMenu = document.getElementById('closeMenu');
@@ -81,6 +101,5 @@
                 sideMenu.classList.remove('active');
             }
         });
-    </script>
-</body>
+        </script>
 </html>
