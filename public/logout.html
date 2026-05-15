@@ -1,40 +1,46 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Log Out Account</title>
-    </head>
-    <body>
-        <div>
-            <!-- Company Logo -->
-            <a class="brand" href="#">
-                <img src="images/RAW.png" alt="logo"/>
-                <span>RAW</span>
-            </a>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-            <!-- Navigation Bar -->
-            <nav class="nav" id="nav">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="work.html">Projects</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="dashboard.html">Profile</a></li>
-                </ul>
-            </nav>
+    <link rel="stylesheet" href="home.css" />
+    <title>Log Out Account</title>
+</head>
 
-                <button class="menu-toggle" id="menuToggle" aria-label="Open Menu">☰</button>
-        </div>
+<body>
+    <form class="logout-container">
 
-        <div>
-            <button type="button" onclick="handleLogout()">
-                Confirm
-            </button>
+            <div class="card-logout" style="text-align:center;">
 
-            <button type="button" onclick="window.history.back()">
-                Cancel
-            </button>
-        </div>
+                <h2 style="color:#000000;">Logging out...</h2>
 
-    <script src="auth.js"></script>
+                <p>You are being safely signed out of your account.</p>
+
+                <div class="loader"></div>
+
+            </div>
+
+            <script>
+                async function logoutUser() {
+
+                    // Send logout request
+                    await fetch("/api/logout", {
+                        method: "POST",
+                        credentials: "include"
+                    });
+
+                    // Wait 2 seconds
+                    setTimeout(() => {
+
+                        // Redirect to login page
+                        window.location.href = "login.html";
+
+                    }, 2000);
+                }
+
+                logoutUser();
+            </script>
+    </form>
 </body>
 </html>
