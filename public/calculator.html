@@ -6,6 +6,13 @@
     <title>RAW Cost Estimation Calculator</title>
     <link rel="stylesheet" href="Calculator.css" />
     <link rel="stylesheet" href="home.css" />
+    <!-- Leaflet Map CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
   </head>
   <body>
     <header class="site-header">
@@ -93,8 +100,28 @@
 
           <h2>4. Type of Finish</h2>
           <div class="finish-types" id="finishTypesContainer">
-            <!-- Dynamic Finish Options will be injected here -->
+            <!-- dynamic finish options will be injected here -->
           </div>
+
+          <div id="locationSection" style="display: none;">
+            <h2>5. Project Location</h2>
+            <div
+              id="projectMap"
+              style="
+                height: 300px;
+                width: 100%;
+                border-radius: 8px;
+                border: 1px solid #ccc;
+                margin-bottom: 20px;
+                z-index: 1;
+              "
+            ></div>
+            <p style="font-size: 12px; color: #666; margin-bottom: 20px">
+              Click on the map to set your project location.
+            </p>
+          </div>
+          <input type="hidden" id="selectedLat" />
+          <input type="hidden" id="selectedLng" />
 
           <div class="actions">
             <button id="estimateBtn" class="btn primary">Estimate</button>
@@ -191,6 +218,12 @@
       </section>
     </main>
 
+    <!-- Leaflet -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
     <script>
       function qs(id) {
         return document.getElementById(id);
@@ -200,6 +233,7 @@
       const printBtn = qs("printBtn");
 
       let selectedFinish = null;
+      let isAdminUser = false;
 
       async function loadRates() {
         try {
@@ -219,6 +253,7 @@
               option.dataset.type = rate.finish_type;
               option.dataset.min = rate.min_rate;
               option.dataset.max = rate.max_rate;
+              option.dataset.img = rate.image_url || "";
 
               option.innerHTML = `
               <img src="${rate.image_url || "images/RAW.png"}" alt="${rate.display_name}" class="finish-img">
@@ -235,6 +270,7 @@
                   type: this.dataset.type,
                   min: parseInt(this.dataset.min),
                   max: parseInt(this.dataset.max),
+                  img: this.dataset.img,
                 };
               });
 
@@ -284,12 +320,19 @@
         const area = parseFloat(qs("areaInput").value) || 0;
         const storeys = parseInt(qs("storeysInput").value) || 1;
         const constructionType = qs("constructionType").value;
+        const selectedLat = qs("selectedLat").value;
+        const selectedLng = qs("selectedLng").value;
+
         if (!selectedFinish) {
           alert("Please select a type of finish.");
           return;
         }
         if (area <= 0 || storeys <= 0) {
           alert("Please enter valid area and number of storeys.");
+          return;
+        }
+        if (isAdminUser && (!selectedLat || !selectedLng)) {
+          alert("Please select a project location on the map.");
           return;
         }
         const totalMin = area * storeys * selectedFinish.min;
@@ -302,11 +345,48 @@
             `₱${totalMin.toLocaleString()} - ₱${totalMax.toLocaleString()}`;
         }
 
-        const details = `Construction Type: ${constructionType.charAt(0).toUpperCase() + constructionType.slice(1)}\nArea: ${area} sqm\nStoreys: ${storeys}\nFinish: ${selectedFinish.type.charAt(0).toUpperCase() + selectedFinish.type.slice(1)}\nEstimated Range: ₱${totalMin.toLocaleString()} - ₱${totalMax.toLocaleString()}`;
+        let details = `Construction Type: ${constructionType.charAt(0).toUpperCase() + constructionType.slice(1)}\nArea: ${area} sqm\nStoreys: ${storeys}\nFinish: ${selectedFinish.type.charAt(0).toUpperCase() + selectedFinish.type.slice(1)}\nEstimated Range: ₱${totalMin.toLocaleString()} - ₱${totalMax.toLocaleString()}`;
+        if (isAdminUser && selectedLat && selectedLng) {
+          details += `\nProject Location: Latitude ${parseFloat(selectedLat).toFixed(5)}, Longitude ${parseFloat(selectedLng).toFixed(5)}`;
+        }
         qs("printDetails").textContent = details;
         document
           .getElementById("estimatePrint")
           .scrollIntoView({ behavior: "smooth" });
+
+        setTimeout(() => {
+          if (isAdminUser) {
+            const confirmAdd = confirm(
+              "Do you want to add this estimate to the project locations page?",
+            );
+            if (confirmAdd) {
+              const data = {
+                project_name:
+                  "Estimate: " +
+                  constructionType.charAt(0).toUpperCase() +
+                  constructionType.slice(1),
+                category:
+                  constructionType.charAt(0).toUpperCase() +
+                  constructionType.slice(1),
+                description: `Area: ${area} sqm, Storeys: ${storeys}, Finish: ${selectedFinish.type}`,
+                latitude: parseFloat(selectedLat),
+                longitude: parseFloat(selectedLng),
+                image_url: selectedFinish.img,
+              };
+              fetch("/api/add-location", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data),
+              }).then(async (res) => {
+                if (res.ok) alert("Added to project locations successfully!");
+                else {
+                  const err = await res.json();
+                  alert("Failed to add location: " + err.error);
+                }
+              });
+            }
+          }
+        }, 500);
       }
 
       async function updateRates() {
@@ -371,7 +451,11 @@
       async function checkAdmin() {
         const response = await fetch("/api/user");
         const data = await response.json();
-        if (data.isAdmin) qs("adminPanel").style.display = "block";
+        if (data.isAdmin) {
+          qs("adminPanel").style.display = "block";
+          qs("locationSection").style.display = "block";
+          isAdminUser = true;
+        }
       }
 
       function onClear() {
@@ -407,6 +491,53 @@
           sideMenu.classList.remove("active");
         }
       });
+
+      // the map
+      const map = L.map("projectMap").setView([7.8289, 123.4346], 10);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: "© OpenStreetMap",
+      }).addTo(map);
+
+      let currentMarker = null;
+
+      map.on("click", function (e) {
+        const lat = e.latlng.lat;
+        const lng = e.latlng.lng;
+
+        qs("selectedLat").value = lat;
+        qs("selectedLng").value = lng;
+
+        if (currentMarker) {
+          map.removeLayer(currentMarker);
+        }
+        currentMarker = L.marker([lat, lng]).addTo(map);
+      });
+
+      // optionally load past projects to show them on the map as well
+      async function loadMapMarkers() {
+        try {
+          const response = await fetch("/api/project-locations");
+          const projects = await response.json();
+          projects.forEach((project) => {
+            const marker = L.marker([
+              project.latitude,
+              project.longitude,
+            ]).addTo(map);
+            const popupContent = `
+                      <div style="font-family: sans-serif;">
+                          <h4 style="margin: 0 0 5px 0;">${project.project_name}</h4>
+                          <p style="font-size: 12px; margin: 0;">${project.category}</p>
+                          ${project.image_url ? `<img src="${project.image_url}" style="width: 100%; margin-top: 5px; border-radius: 4px;">` : ""}
+                      </div>
+                  `;
+            marker.bindPopup(popupContent);
+          });
+        } catch (error) {
+          console.error("Error loading map markers:", error);
+        }
+      }
+      loadMapMarkers();
     </script>
     <script src="auth.js"></script>
   </body>
