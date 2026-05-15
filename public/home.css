@@ -152,6 +152,34 @@ body{
     border-color: var(--accent); 
 }
 
+/* Registration / Sign Up Button */
+.btn-signup {
+    width: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--accent)) !important; 
+    border: none; 
+    padding: 14px; 
+    border-radius: 8px; 
+    font-weight: 700; 
+    cursor: pointer; 
+    color: #000 !important; 
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 16px; /
+    display: block;
+    transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-signup:hover {
+    transform: translateY(-2px);
+    opacity: 0.95;
+    box-shadow: 0 5px 15px rgba(184, 134, 11, 0.4); /* Dark gold glow glow */
+}
+
+.btn-signup:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(184, 134, 11, 0.2);
+}
 /* Main Sign In Button ra ang naay Gold Gradient */
 .form button.btn-signin, .form button[type="submit"] {
     background: linear-gradient(90deg, var(--gold), var(--accent)); 
