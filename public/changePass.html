@@ -6,14 +6,12 @@
   </head>
   <body>
     
-      <!-- Company Logo -->
-       <div class="header-nav">
+    <div class="header-nav">
       <a class="brand" href="#">
         <img src="images/RAW.png" alt="logo" />
         <span>RAW</span>
       </a>
 
-      <!-- Navigation Bar -->
       <nav class="nav" id="nav">
         <ul>
           <li><a href="index.html">Home</a></li>
@@ -31,17 +29,13 @@
     <div class="change-pass-container">
       <h2>Update Security</h2>
   
-      <label>Enter New Password: </label>
+      <label>Enter New Password:</label>
       <input type="password" id="txtNewPassword" placeholder="New Password" />
 
-      <label>Confirm Password: </label>
-      <input
-        type="password"
-        id="txtConfirmPassword"
-        placeholder="Confirm Password"
-      />
+      <label>Confirm Password:</label>
+      <input type="password" id="txtConfirmPassword" placeholder="Confirm Password" />
 
-      <button type="button" onclick="handlePasswordChange()">Confirm</button>
+      <button type="button" class="btn-confirm" onclick="handlePasswordChange()">Confirm</button>
     </div>
 
     <script src="auth.js"></script>
