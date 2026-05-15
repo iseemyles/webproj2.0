@@ -1,67 +1,75 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="home.css">
+    <title>Account Registration</title>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" href="#">
+                <img src="images/RAW.png" alt="logo"/>
+                <span>RAW</span>
+            </a>
+            <!--
+            <nav class="nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="work.html">Projects</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav> -->
+        </div>
+    </header>
 
-        <!-- CSS -->
-        <link rel="stylesheet" href="home.css">
-
-        <title>Account Registration</title>
-    </head>
-    <body>
-        <header class="site-header">
-            <div>
-                <!-- Company Logo -->
-                <a class="brand" href="#">
-                    <img src="images/RAW.png" alt="logo"/>
-                    <span>RAW</span>
-                </a>
-
-                <!-- Navigation Bar -->
-                 <nav class="nav" id="nav">
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="work.html">Projects</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                 </nav>
-
-                 <button class="menu-toggle" id="menuToggle" aria-label="Open Menu">☰</button>
+    <!-- KINI NGA PARTE ANG GI-TARONG -->
+    <main class="main">
+        <!-- Giusa nalang ang div wrapper ug form tag gamit ang class="form" -->
+        <form class="form">
+            <h2>Registration</h2>
+            
+            <div class="input-group">
+                <label for="txtFirstName">Enter First Name:</label>
+                <input type="text" id="txtFirstName" placeholder="First Name">
             </div>
 
-            <div>
-                <form>
-                    <!-- User Input Fields -->
-                    <label for="txtFirstName">Enter First Name: </label>
-                    <input type="text" id="txtFirstName" placeholder="First Name">
-
-                    <label for="txtLastName">Enter Last Name: </label>
-                    <input type="text" id="txtLastName" placeholder="Last Name">
-
-                    <label for="txtUsername">Enter Username: </label>
-                    <input type="text" id="txtUsername" placeholder="Username">
-
-                    <label for="txtEmail">Enter Email:</label>
-                    <input type="text" id="txtEmail" placeholder="Email">
-
-                    <!-- Password -->
-                    <label for="txtPassword">Password</label>
-                    <input type="password" id="txtPassword" placeholder="Password">
-
-                    <label for="txtConfirmPassword">Confirm Password</label>
-                    <input type="password" id="txtConfirmPassword" placeholder="Confirm Password">
-
-                    <!-- Button -->
-                    <button type="button" onclick="handleSignUp()">Sign Up</button>
-                    <p>
-                        Already have an account?
-                        <a href="login.html">Sign in</a>
-                    </p>
-                </form>
+            <div class="input-group">
+                <label for="txtLastName">Enter Last Name:</label>
+                <input type="text" id="txtLastName" placeholder="Last Name">
             </div>
-        </header>
 
-        <script src="auth.js"></script>
-    </body>
+            <div class="input-group">
+                <label for="txtUsername">Enter Username:</label>
+                <input type="text" id="txtUsername" placeholder="Username">
+            </div>
+
+            <div class="input-group">
+                <label for="txtEmail">Enter Email:</label>
+                <input type="text" id="txtEmail" placeholder="Email">
+            </div>
+
+            <div class="input-group">
+                <label for="txtPassword">Password</label>
+                <input type="password" id="txtPassword" placeholder="Password">
+            </div>
+
+            <div class="input-group">
+                <label for="txtConfirmPassword">Confirm Password</label>
+                <input type="password" id="txtConfirmPassword" placeholder="Confirm Password">
+            </div>
+                
+            <button type="button" class="btn-signup" onclick="handleSignUp()">Sign Up</button>
+            
+            <p class="signin-text">
+                Already have an account? 
+                <a href="login.html">Sign in</a>
+            </p>
+        </form>
+    </main>
+
+    <script src="auth.js"></script>
+</body>
 </html>

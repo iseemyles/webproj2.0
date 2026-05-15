@@ -1,12 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <!-- CSS -->
     <link rel="stylesheet" href="home.css" />
-
     <title>Log In Account</title>
   </head>
   <body>
@@ -17,20 +15,6 @@
           <img src="images/RAW.png" alt="logo" />
           <span>RAW</span>
         </a>
-
-        <!--Navigation Bar-->
-        <nav class="nav" id="nav">
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="work.html">Projects</a></li>
-            <li><a href="about.html">About</a></li>
-          </ul>
-        </nav>
-
-        <button class="menu-toggle" id="menuToggle" aria-label="Open menu">
-          ☰
-        </button>
-
       </div>
     </header>
 
@@ -41,35 +25,36 @@
             event.preventDefault();
             handleLogin();
           "
-
           class="form"
         >
-          <label>Enter Email:</label>
+          <!-- KINI NGA HEADER ANG GIDUGANG -->
+          <div class="form-header">
+            <h2>Welcome to Arkitech</h2>
+            <p>Sign in to continue</p>
+          </div>
+
+          <label for="txtEmail">Enter Email:</label>
           <input type="email" id="txtEmail" placeholder="Email" required />
 
-          <label>Enter Password:</label>
+          <label for="txtPassword">Enter Password:</label>
           <input type="password" id="txtPassword" placeholder="Password" required />
 
-          <!-- Button -->
-          <button type="submit">Sign In</button>
-          <p>
-            Don't have an account?
-            <button
-              type="button"
-              onclick="window.location.href = 'registration.html'">
-              Sign up
-            </button>
-          </p>
-
-          <p>
-            Forgot Password?
-            <button
-              type="button"
-              onclick="window.location.href = 'changePass.html'"
-            >
-              Change password
-            </button>
-          </p>
+          <!-- Main Submit Button -->
+          <button type="submit" class="btn-signin">Sign In</button>
+          
+          <!-- Footer Links sa sulod sa Form -->
+          <div class="form-footer">
+            <p>
+              Don't have an account?
+              <a href="registration.html">Sign up</a>
+            </p>
+            <!--
+            <p>
+              Forgot Password?
+              <a href="changePass.html">Change password</a>
+            </p>
+            -->
+          </div>
         </form>
       </div>
     </main>
