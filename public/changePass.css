@@ -1,0 +1,71 @@
+/* Layout */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+}
+
+.header-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Change Password Section */
+.chang-pass-container {
+    max-width: 380px;
+    margin: 60px auto; 
+    padding: 30px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.change-pass-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.change-pass-container label {
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+}
+
+.change-pass-container input {
+    margin-bottom: 20px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 15px;
+    transition: border-color 0.3s;
+}
+
+.change-pass-container input:focus {
+    border-color: #d4af37; 
+    outline: none;
+}
+
+/* Confirm Button styling */
+.btn-confirm {
+    background-color: #d4af37; 
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-confirm:hover {
+    background-color: #b8962e;
+}
