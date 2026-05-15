@@ -1,4 +1,4 @@
-<!doctype html>
+!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -103,23 +103,21 @@
             <!-- dynamic finish options will be injected here -->
           </div>
 
-          <div id="locationSection" style="display: none;">
-            <h2>5. Project Location</h2>
-            <div
-              id="projectMap"
-              style="
-                height: 300px;
-                width: 100%;
-                border-radius: 8px;
-                border: 1px solid #ccc;
-                margin-bottom: 20px;
-                z-index: 1;
-              "
-            ></div>
-            <p style="font-size: 12px; color: #666; margin-bottom: 20px">
-              Click on the map to set your project location.
-            </p>
-          </div>
+          <h2>5. Project Location</h2>
+          <div
+            id="projectMap"
+            style="
+              height: 300px;
+              width: 100%;
+              border-radius: 8px;
+              border: 1px solid #ccc;
+              margin-bottom: 20px;
+              z-index: 1;
+            "
+          ></div>
+          <p style="font-size: 12px; color: #666; margin-bottom: 20px">
+            Click on the map to set your project location.
+          </p>
           <input type="hidden" id="selectedLat" />
           <input type="hidden" id="selectedLng" />
 
@@ -331,7 +329,7 @@
           alert("Please enter valid area and number of storeys.");
           return;
         }
-        if (isAdminUser && (!selectedLat || !selectedLng)) {
+        if (!selectedLat || !selectedLng) {
           alert("Please select a project location on the map.");
           return;
         }
@@ -345,10 +343,7 @@
             `₱${totalMin.toLocaleString()} - ₱${totalMax.toLocaleString()}`;
         }
 
-        let details = `Construction Type: ${constructionType.charAt(0).toUpperCase() + constructionType.slice(1)}\nArea: ${area} sqm\nStoreys: ${storeys}\nFinish: ${selectedFinish.type.charAt(0).toUpperCase() + selectedFinish.type.slice(1)}\nEstimated Range: ₱${totalMin.toLocaleString()} - ₱${totalMax.toLocaleString()}`;
-        if (isAdminUser && selectedLat && selectedLng) {
-          details += `\nProject Location: Latitude ${parseFloat(selectedLat).toFixed(5)}, Longitude ${parseFloat(selectedLng).toFixed(5)}`;
-        }
+        let details = `Construction Type: ${constructionType.charAt(0).toUpperCase() + constructionType.slice(1)}\nArea: ${area} sqm\nStoreys: ${storeys}\nFinish: ${selectedFinish.type.charAt(0).toUpperCase() + selectedFinish.type.slice(1)}\nEstimated Range: ₱${totalMin.toLocaleString()} - ₱${totalMax.toLocaleString()}\nProject Location: Latitude ${parseFloat(selectedLat).toFixed(5)}, Longitude ${parseFloat(selectedLng).toFixed(5)}`;
         qs("printDetails").textContent = details;
         document
           .getElementById("estimatePrint")
@@ -453,7 +448,6 @@
         const data = await response.json();
         if (data.isAdmin) {
           qs("adminPanel").style.display = "block";
-          qs("locationSection").style.display = "block";
           isAdminUser = true;
         }
       }
