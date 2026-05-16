@@ -5,6 +5,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import bcrypt from "bcryptjs";
 import session from "express-session";
+import crypto from "crypto";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -134,15 +135,122 @@ app.get("/api/user", (req, res) => {
   }
 });
 
+// forgot Password
+app.post("/api/forgot-password", async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const [rows] = await pool.execute("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "Email not found" });
+    }
+
+    const user = rows[0];
+    const expires = Date.now() + 3600000; // 1 hour from now
+    const secret = process.env.SESSION_SECRET || "fallback_secret";
+    const data = `${user.id}:${expires}`;
+    const signature = crypto
+      .createHmac("sha256", secret)
+      .update(data)
+      .digest("hex");
+    const token = Buffer.from(`${data}:${signature}`).toString("base64");
+
+    const resetLink = `http://localhost:${PORT}/reset-password.html?token=${token}`;
+
+    const requestTime = new Date().toLocaleString();
+    const expiryTime = new Date(expires).toLocaleString();
+
+    console.log("\n========================================");
+    console.log("PASSWORD RESET REQUEST");
+    console.log(`User: ${user.email}`);
+    console.log(`Requested at: ${requestTime}`);
+    console.log(`Link: ${resetLink}`);
+    console.log(`Expires at:   ${expiryTime}`);
+    console.log("========================================\n");
+
+    res.json({
+      message:
+        "If an account with that email exists, a password reset link has been generated in the server console.",
+    });
+  } catch (error) {
+    console.error("Forgot password error:", error);
+    res.status(500).json({ error: "Server error during forgot password" });
+  }
+});
+
+// reset Password (using token)
+app.post("/api/reset-password", async (req, res) => {
+  const { token, newPassword } = req.body;
+
+  if (!newPassword || newPassword.trim() === "") {
+    return res.status(400).json({ error: "Password cannot be empty" });
+  }
+
+  try {
+    const decoded = Buffer.from(token, "base64").toString("utf8");
+    const [userId, expires, signature] = decoded.split(":");
+
+    const secret = process.env.SESSION_SECRET || "fallback_secret";
+    const expectedSignature = crypto
+      .createHmac("sha256", secret)
+      .update(`${userId}:${expires}`)
+      .digest("hex");
+
+    if (signature !== expectedSignature) {
+      return res.status(400).json({ error: "Invalid or tampered token" });
+    }
+
+    if (Date.now() > parseInt(expires)) {
+      return res.status(400).json({ error: "Token has expired" });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await pool.execute("UPDATE users SET password = ? WHERE id = ?", [
+      hashedPassword,
+      userId,
+    ]);
+
+    res.json({ message: "Password has been reset successfully" });
+  } catch (error) {
+    console.error("Reset password error:", error);
+    res.status(400).json({ error: "Invalid token format" });
+  }
+});
+
 // change Password
 app.post("/api/change-password", async (req, res) => {
   if (!req.session.userId) {
     return res.status(401).json({ error: "Unauthorized. Please log in." });
   }
 
-  const { newPassword } = req.body;
+  const { currentPassword, newPassword } = req.body;
+
+  if (!currentPassword || !newPassword || newPassword.trim() === "") {
+    return res.status(400).json({ error: "All fields are required" });
+  }
 
   try {
+    // Fetch current password from DB
+    const [rows] = await pool.execute(
+      "SELECT password FROM users WHERE id = ?",
+      [req.session.userId],
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const user = rows[0];
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ error: "Incorrect current password" });
+    }
+
+    // Hash and update to new password
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     await pool.execute("UPDATE users SET password = ? WHERE id = ?", [
       hashedPassword,
@@ -169,7 +277,13 @@ app.post("/api/update-rates", async (req, res) => {
     for (const rate of rates) {
       await pool.execute(
         "UPDATE finish_rates SET display_name = ?, min_rate = ?, max_rate = ?, image_url = ? WHERE id = ?",
-        [rate.display_name, rate.min_rate, rate.max_rate, rate.image_url, rate.id],
+        [
+          rate.display_name,
+          rate.min_rate,
+          rate.max_rate,
+          rate.image_url,
+          rate.id,
+        ],
       );
     }
     res.json({ message: "Rates updated successfully" });

@@ -105,8 +105,14 @@ async function handleLogin() {
 }
 
 async function handlePasswordChange() {
+  const currentPassword = document.getElementById("txtCurrentPassword").value;
   const newPassword = document.getElementById("txtNewPassword").value;
   const confirmPassword = document.getElementById("txtConfirmPassword").value;
+
+  if (!currentPassword || !newPassword || newPassword.trim() === "") {
+    alert("All fields are required!");
+    return;
+  }
 
   if (newPassword !== confirmPassword) {
     alert("Passwords do not match!");
@@ -117,7 +123,7 @@ async function handlePasswordChange() {
     const response = await fetch("/api/change-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ newPassword }),
+      body: JSON.stringify({ currentPassword, newPassword }),
     });
 
     if (response.ok) {

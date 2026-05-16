@@ -65,10 +65,10 @@
         statusMessage.style.display = "none";
 
         try {
-          const response = await fetch('/api/auth/forgot-password', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email })
+          const response = await fetch("/api/forgot-password", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email }),
           });
 
           const data = await response.json();
@@ -78,10 +78,14 @@
             statusMessage.style.background = "rgba(40, 167, 69, 0.1)";
             statusMessage.style.color = "#28a745";
             statusMessage.style.border = "1px solid rgba(40, 167, 69, 0.2)";
-            statusMessage.style.textContent = data.message || "A verification link has been delivered to your Gmail account inbox.";
-            document.getElementById('emailInput').value = "";
+            statusMessage.textContent =
+              data.message ||
+              "A reset link has been generated in the server CLI.";
+            document.getElementById("emailInput").value = "";
           } else {
-            throw new Error(data.error || "An error occurred during submission.");
+            throw new Error(
+              data.error || "An error occurred during submission.",
+            );
           }
         } catch (error) {
           statusMessage.style.display = "block";
