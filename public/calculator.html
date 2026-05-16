@@ -1,4 +1,4 @@
-!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -15,35 +15,33 @@
     />
   </head>
   <body>
-    <header class="site-header">
-      <div class="container header-inner">
-        <!-- Left Side: Menu Toggle -->
-        <button
-          class="menu-toggle-left"
-          id="menuToggle"
-          aria-label="Open Profile"
-        >
-          ☰
-        </button>
-
-        <!-- Right Side: Navigation -->
-        <nav class="nav">
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="work.html">Work</a></li>
-            <li><a href="about.html">About</a></li>
-          </ul>
-        </nav>
-      </div>
+    <!-- Premium Global Header Layout -->
+    <header class="calc-header">
+      <nav class="calc-nav">
+        <div class="nav-left">
+          <!-- Profile Toggle Switch -->
+          <button class="menu-toggle-left" id="menuToggle" aria-label="Open Profile" style="background:none; border:none; color:inherit; font-size:22px; cursor:pointer; margin-right:15px;">
+            ☰
+          </button>
+          RAW
+        </div>
+        <div class="nav-right">
+          <a href="index.html" style="color:inherit; text-decoration:none;">home</a> &nbsp;&nbsp;
+          <a href="work.html" style="color:inherit; text-decoration:none;">projects</a> &nbsp;&nbsp;
+          <a href="Calculator.html" style="color:var(--gold); text-decoration:none; font-weight:700;">calculator</a> &nbsp;&nbsp;
+        </div>
+      </nav>
     </header>
+ 
+    <!-- Secure Sidebar Profile Management Framework -->
     <div class="side-menu" id="sideMenu">
       <button class="close-btn" id="closeMenu">×</button>
-
+ 
       <div class="profile-section-sidebar">
         <img src="images/profile.png" alt="Profile" class="sidebar-avatar" />
         <h3 id="fullName">User Profile</h3>
       </div>
-
+ 
       <div class="info-group-sidebar">
         <p><strong>Username:</strong> <span id="username"></span></p>
         <p><strong>Email:</strong> <span id="email"></span></p>
@@ -52,25 +50,27 @@
           <span id="dateRegistered"></span>
         </p>
       </div>
-
+ 
       <button
         class="btn primary"
-        style="width: 100%; margin-top: 20px"
+        style="width: 100%; margin-top: 20px;"
         onclick="window.location.href = 'changePass.html'"
       >
         Change Password
       </button>
     </div>
-
+ 
+    <!-- Main UI Computation Grid System -->
     <main class="calc-main">
       <section class="calc-top">
         <h1>RAW Cost Estimation<br /><span>Calculator</span></h1>
         <div class="calc-desc">
-          Estimate your construction project cost. Enter your details below.
+          Welcome to Arkitech Engine Core. Estimate your construction project cost. Enter your details below.
         </div>
       </section>
-
+ 
       <section class="calc-body">
+        <!-- Input Panel Configurations -->
         <div class="calc-left">
           <h2>1. Area (sqm)</h2>
           <input
@@ -80,7 +80,7 @@
             min="1"
             placeholder="Enter area in sqm"
           />
-
+ 
           <h2>2. Construction Type</h2>
           <select id="constructionType" class="input select">
             <option value="residential">Residential</option>
@@ -88,7 +88,7 @@
             <option value="industrial">Industrial</option>
             <option value="renovation">Renovation</option>
           </select>
-
+ 
           <h2>3. Number of Storeys</h2>
           <input
             id="storeysInput"
@@ -97,12 +97,32 @@
             min="1"
             placeholder="Number of storeys"
           />
-
+ 
           <h2>4. Type of Finish</h2>
+          <!-- Content is updated by DB layout logic but includes fully working semantic fallbacks -->
           <div class="finish-types" id="finishTypesContainer">
-            <!-- dynamic finish options will be injected here -->
+            <div class="finish-option" data-type="basic" data-min="15000" data-max="23000">
+              <img src="images/bare_typefinish.jpg" alt="Basic/Bare" class="finish-img">
+              <div class="finish-label">Basic/Bare</div>
+              <div class="finish-rate">₱15,000 - ₱23,000/sqm</div>
+            </div>
+            <div class="finish-option" data-type="standard" data-min="25000" data-max="40000">
+              <img src="images/standard_housefinish.jpg" alt="Standard" class="finish-img">
+              <div class="finish-label">Standard</div>
+              <div class="finish-rate">₱25,000 - ₱40,000/sqm</div>
+            </div>
+            <div class="finish-option" data-type="highend" data-min="40000" data-max="60000">
+              <img src="images/luxury_housefinish.jpg" alt="High-End/Luxury" class="finish-img">
+              <div class="finish-label">High-End/Luxury</div>
+              <div class="finish-rate">₱40,000 - ₱60,000+/sqm</div>
+            </div>
+            <div class="finish-option" data-type="iconic" data-min="65000" data-max="65000">
+              <img src="images/iconic_housefinish.jpg" alt="Iconic" class="finish-img">
+              <div class="finish-label">Iconic</div>
+              <div class="finish-rate">₱65,000+/sqm</div>
+            </div>
           </div>
-
+ 
           <h2>5. Project Location</h2>
           <div
             id="projectMap"
@@ -120,38 +140,61 @@
           </p>
           <input type="hidden" id="selectedLat" />
           <input type="hidden" id="selectedLng" />
-
+ 
           <div class="actions">
-            <button id="estimateBtn" class="btn primary">Estimate</button>
+            <button id="estimateBtn" class="btn primary">Estimate Project Cost</button>
             <button id="clearBtn" class="btn ghost">Clear</button>
           </div>
         </div>
-
+ 
+        <!-- Output Display & Messaging System Layout -->
         <div class="calc-right">
-          <div class="result-card">
-            <div class="result-label">Estimated Project Cost</div>
-            <div id="totalValue" class="result-value">₱0.00</div>
-            <div class="result-hint">Total estimate based on your inputs.</div>
-            <button id="printBtn" class="btn print-btn">Print Estimate</button>
+          <h2>Estimated Project Cost</h2>
+          <div id="resultBox" class="result-box" style="background: var(--card, #0b0b0b); padding: 24px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+            <div id="resultContent" class="result-content">
+              <div class="result-header" style="color: var(--muted, #cfc7be); font-size: 14px; text-transform: uppercase;">Estimated Project Cost</div>
+              <div class="total-row" style="font-size: 32px; font-weight: 700; color: #fff; margin-top: 10px;">
+                Total: <span id="totalValue">₱0.00</span>
+              </div>
+            </div>
           </div>
-
-          <div class="estimate-details" id="estimatePrint">
-            <h3>Estimate Details</h3>
-            <pre id="printDetails">No estimate calculated yet.</pre>
+          <div class="result-actions" style="margin-top: 15px;">
+            <button id="printBtn" class="btn outline" style="width: 100%;">Print</button>
           </div>
-
-          <aside class="calc-aside">
-            <h3>Need a Detailed Quote?</h3>
-            <p>
-              Our estimates are based on general industry rates. For a more
-              precise breakdown, please contact our engineers.
-            </p>
-            <a class="btn outline" href="contact.html">Contact Us</a>
-          </aside>
+ 
+          <!-- Risk & Compliance Framework Disclaimer Layout -->
+          <div class="disclaimer muted small" style="margin-top:24px; background: rgba(255,217,102,0.02); padding: 20px; border-radius: 8px; border-left: 3px solid var(--accent, #b8860b);">
+            <strong style="font-size:20px; color: var(--gold, #ffd966); display: block; margin-bottom: 6px;">Disclaimer:</strong> 
+            <span style="font-size:14px; line-height:1.5; display:inline-block; color: #aaa;">
+              THIS IS AN ESTIMATE ONLY FOR BUDGET REFERENCE. THIS DOES NOT INCLUDE PROFESSIONAL FEES FOR THE DESIGN, GOVERNMENT/LEGAL FEES, OR ANY OTHER PRE-REQUISITE PRIOR TO START OF CONSTRUCTION.
+            </span>
+          </div>
         </div>
       </section>
-
-      <!-- Admin Management Panel -->
+ 
+      <!-- Printable Sheet Hook Layout Framework -->
+      <section id="estimatePrint" class="estimate-print" aria-hidden="true" style="margin-top: 40px; padding: 24px; background: #fff; color: #000; border-radius: 8px;">
+        <div class="paper">
+          <h3 style="margin: 0; font-size: 24px; font-weight: 700;">RAW ARCHITECTURAL BUILDERS</h3>
+          <h4 style="margin: 5px 0 20px 0; color: #555; letter-spacing: 1px;">ESTIMATED PROJECT COST SHEET</h4>
+          <pre id="printDetails" class="print-details" style="font-family: monospace; font-size: 15px; background: #f5f5f5; padding: 15px; border-radius: 4px; white-space: pre-wrap;">No estimate calculated yet.</pre>
+          <div class="print-footnote" style="font-size: 11px; color: #666; margin-top: 20px; border-top: 1px dashed #ccc; padding-top: 10px;">
+            THIS IS AN ESTIMATE ONLY FOR BUDGET REFERENCE. THIS DOES NOT INCLUDE PROFESSIONAL FEES FOR THE DESIGN, GOVERNMENT/LEGAL FEES, OR ANY OTHER PRE REQUISITE PRIOR TO START OF CONSTRUCTION.
+          </div>
+        </div>
+ 
+        <aside class="owner-box" style="margin-top: 30px; padding: 20px; background: #fdfcf7; border: 1px solid #e6dfc3; border-radius: 8px; text-align: center;">
+          <div class="logo-circle" style="width: 50px; height: 50px; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; border-radius: 50%; margin: 0 auto 10px auto;">RAW</div>
+          <p class="owner-msg" style="font-style: italic; margin-bottom: 15px;">"Building visions with precision, engineering realities with integrity." — Management</p>
+          <div class="thanks" style="font-weight: 700; margin-bottom: 15px;">Thank you for inquiring!</div>
+          <div style="display: flex; gap: 10px; justify-content: center;">
+            <a class="btn primary" href="index.html" style="text-decoration: none; padding: 10px 20px; font-size: 14px;">Home</a>
+            <a class="btn outline" href="contact.html" style="text-decoration: none; padding: 10px 20px; font-size: 14px;">Contact Us</a>
+          </div>
+        </aside>
+      </section>
+ 
+      <!-- Secured Admin Configuration Panel Grid Layout -->
       <section
         id="adminPanel"
         class="container"
@@ -159,19 +202,17 @@
           display: none;
           margin-top: 40px;
           padding: 20px;
-          border: 2px solid #333;
+          border: 1px solid rgba(255,255,255,0.1);
           border-radius: 8px;
-          background: #f9f9f9;
+          background: #0f0f0f;
         "
       >
-        <h2 style="color: #333; margin-bottom: 15px">
+        <h2 style="color: var(--gold); margin-bottom: 15px">
           Admin: Manage Finish Rates
         </h2>
-
-        <!-- Existing Rates List -->
-        <div id="adminRateList">
-          <!-- Rates will be injected here by JS -->
-        </div>
+ 
+        <!-- Dynamic Target Row Entry Hooks -->
+        <div id="adminRateList"></div>
         <button
           class="btn primary"
           onclick="updateRates()"
@@ -179,10 +220,9 @@
         >
           Save Updated Rates
         </button>
-
-        <!-- Add New Rate Form -->
-        <hr style="margin: 30px 0" />
-        <h3 style="color: #333; margin-bottom: 15px">Add New Finish Type</h3>
+ 
+        <hr style="margin: 30px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.1);" />
+        <h3 style="color: #fff; margin-bottom: 15px">Add New Finish Type</h3>
         <div
           style="
             display: flex;
@@ -192,36 +232,25 @@
             max-width: 400px;
           "
         >
-          <input
-            type="text"
-            id="newFinishType"
-            placeholder="Unique ID (e.g. luxury)"
-          />
-          <input
-            type="text"
-            id="newDisplayName"
-            placeholder="Display Name (e.g. High-End Luxury)"
-          />
-          <input type="number" id="newMinRate" placeholder="Min Rate per sqm" />
-          <input type="number" id="newMaxRate" placeholder="Max Rate per sqm" />
-          <input
-            type="text"
-            id="newImageUrl"
-            placeholder="Image URL (e.g. images/luxury.jpg)"
-          />
+          <input type="text" id="newFinishType" class="input" placeholder="Unique ID (e.g. luxury)" />
+          <input type="text" id="newDisplayName" class="input" placeholder="Display Name (e.g. High-End Luxury)" />
+          <input type="number" id="newMinRate" class="input" placeholder="Min Rate per sqm" />
+          <input type="number" id="newMaxRate" class="input" placeholder="Max Rate per sqm" />
+          <input type="text" id="newImageUrl" class="input" placeholder="Image URL (e.g. images/luxury.jpg)" />
           <button class="btn primary" onclick="addNewRate()">
             Add New Type
           </button>
         </div>
       </section>
     </main>
-
-    <!-- Leaflet -->
+ 
+    <!-- Spatial Engine Infrastructure Scripts -->
     <script
       src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
+ 
     <script>
       function qs(id) {
         return document.getElementById(id);
@@ -229,21 +258,47 @@
       const estimateBtn = qs("estimateBtn");
       const clearBtn = qs("clearBtn");
       const printBtn = qs("printBtn");
-
+ 
       let selectedFinish = null;
       let isAdminUser = false;
-
+ 
+      function bindOptionEvents() {
+        document.querySelectorAll(".finish-option").forEach((opt) => {
+          opt.addEventListener("click", function () {
+            document
+              .querySelectorAll(".finish-option")
+              .forEach((o) => o.classList.remove("selected"));
+            this.classList.add("selected");
+            selectedFinish = {
+              type: this.dataset.type,
+              min: parseInt(this.dataset.min),
+              max: parseInt(this.dataset.max),
+              img: this.dataset.img || this.querySelector("img")?.getAttribute("src")
+            };
+          });
+          opt.addEventListener("mouseenter", function () {
+            const rateLabel = this.querySelector(".finish-rate");
+            if(rateLabel) rateLabel.style.display = "block";
+          });
+          opt.addEventListener("mouseleave", function () {
+            const rateLabel = this.querySelector(".finish-rate");
+            if(rateLabel) rateLabel.style.display = "";
+          });
+        });
+      }
+ 
       async function loadRates() {
         try {
           const response = await fetch("/api/finish-rates");
+          if (!response.ok) throw new Error("API unaccessible, processing static tree layout");
           const rates = await response.json();
-
+ 
           const container = document.getElementById("finishTypesContainer");
           const adminRateList = document.getElementById("adminRateList");
-
+ 
           if (container) container.innerHTML = "";
           if (adminRateList) adminRateList.innerHTML = "";
-
+ 
           rates.forEach((rate) => {
             if (container) {
               const option = document.createElement("div");
@@ -252,75 +307,54 @@
               option.dataset.min = rate.min_rate;
               option.dataset.max = rate.max_rate;
               option.dataset.img = rate.image_url || "";
-
+ 
               option.innerHTML = `
-              <img src="${rate.image_url || "images/RAW.png"}" alt="${rate.display_name}" class="finish-img">
-              <div class="finish-label">${rate.display_name}</div>
-              <div class="finish-rate">₱${parseInt(rate.min_rate).toLocaleString()} - ₱${parseInt(rate.max_rate).toLocaleString()}/sqm</div>
-            `;
-
-              option.addEventListener("click", function () {
-                document
-                  .querySelectorAll(".finish-option")
-                  .forEach((o) => o.classList.remove("selected"));
-                this.classList.add("selected");
-                selectedFinish = {
-                  type: this.dataset.type,
-                  min: parseInt(this.dataset.min),
-                  max: parseInt(this.dataset.max),
-                  img: this.dataset.img,
-                };
-              });
-
-              option.addEventListener("mouseenter", function () {
-                const rateDiv = this.querySelector(".finish-rate");
-                if (rateDiv) rateDiv.style.display = "block";
-              });
-              option.addEventListener("mouseleave", function () {
-                const rateDiv = this.querySelector(".finish-rate");
-                if (rateDiv) rateDiv.style.display = "";
-              });
-
+                <img src="${rate.image_url || "images/RAW.png"}" alt="${rate.display_name}" class="finish-img">
+                <div class="finish-label">${rate.display_name}</div>
+                <div class="finish-rate">₱${parseInt(rate.min_rate).toLocaleString()} - ₱${parseInt(rate.max_rate).toLocaleString()}/sqm</div>
+              `;
               container.appendChild(option);
             }
-
+ 
             if (adminRateList) {
               const row = document.createElement("div");
               row.className = "admin-rate-row";
               row.dataset.id = rate.id;
-              row.style.marginBottom = "20px";
-              row.style.padding = "15px";
-              row.style.border = "1px solid #ddd";
-              row.style.background = "#fff";
+              row.style.marginBottom = "15px";
+              row.style.padding = "12px";
+              row.style.border = "1px solid rgba(255,255,255,0.08)";
+              row.style.background = "#111";
               row.style.display = "flex";
               row.style.flexDirection = "column";
               row.style.gap = "10px";
               row.innerHTML = `
-              <div style="display: flex; gap: 10px;">
-                <input type="text" class="name-input" value="${rate.display_name}" style="flex: 2;" title="Display Name">
-                <input type="number" class="min-input" value="${rate.min_rate}" style="flex: 1;" title="Min Rate">
-                <input type="number" class="max-input" value="${rate.max_rate}" style="flex: 1;" title="Max Rate">
-              </div>
-              <div style="display: flex; gap: 10px;">
-                <input type="text" class="img-input" value="${rate.image_url || ""}" style="flex: 1;" placeholder="Image URL">
-                <button class="btn outline" onclick="deleteRate(${rate.id})" style="color: red; border-color: red;">Delete</button>
-              </div>
-            `;
+                <div style="display: flex; gap: 10px;">
+                  <input type="text" class="name-input input" value="${rate.display_name}" style="flex: 2;" title="Display Name">
+                  <input type="number" class="min-input input" value="${rate.min_rate}" style="flex: 1;" title="Min Rate">
+                  <input type="number" class="max-input input" value="${rate.max_rate}" style="flex: 1;" title="Max Rate">
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                  <input type="text" class="img-input input" value="${rate.image_url || ""}" style="flex: 1;" placeholder="Image URL">
+                  <button class="btn outline" onclick="deleteRate(${rate.id})" style="color: #ff4d4d; border-color: #ff4d4d; padding: 8px 16px;">Delete</button>
+                </div>
+              `;
               adminRateList.appendChild(row);
             }
           });
+          bindOptionEvents();
         } catch (error) {
-          console.error("Error loading rates:", error);
+          console.warn(error.message);
+          bindOptionEvents();
         }
       }
-
+ 
       function onEstimate() {
         const area = parseFloat(qs("areaInput").value) || 0;
         const storeys = parseInt(qs("storeysInput").value) || 1;
         const constructionType = qs("constructionType").value;
         const selectedLat = qs("selectedLat").value;
         const selectedLng = qs("selectedLng").value;
-
+ 
         if (!selectedFinish) {
           alert("Please select a type of finish.");
           return;
@@ -333,36 +367,28 @@
           alert("Please select a project location on the map.");
           return;
         }
+ 
         const totalMin = area * storeys * selectedFinish.min;
         const totalMax = area * storeys * selectedFinish.max;
-
+ 
         if (totalMin === totalMax) {
-          qs("totalValue").textContent = `₱${totalMin.toLocaleString()}`;
+          qs("totalValue").textContent = `₱${totalMin.toLocaleString(undefined, {maximumFractionDigits:2})}`;
         } else {
-          qs("totalValue").textContent =
-            `₱${totalMin.toLocaleString()} - ₱${totalMax.toLocaleString()}`;
+          qs("totalValue").textContent = `₱${totalMin.toLocaleString()} - ₱${totalMax.toLocaleString()}`;
         }
-
-        let details = `Construction Type: ${constructionType.charAt(0).toUpperCase() + constructionType.slice(1)}\nArea: ${area} sqm\nStoreys: ${storeys}\nFinish: ${selectedFinish.type.charAt(0).toUpperCase() + selectedFinish.type.slice(1)}\nEstimated Range: ₱${totalMin.toLocaleString()} - ₱${totalMax.toLocaleString()}\nProject Location: Latitude ${parseFloat(selectedLat).toFixed(5)}, Longitude ${parseFloat(selectedLng).toFixed(5)}`;
+ 
+        const details = `Construction Type: ${constructionType.charAt(0).toUpperCase() + constructionType.slice(1)}\nArea: ${area} sqm\nStoreys: ${storeys}\nFinish: ${selectedFinish.type.charAt(0).toUpperCase() + selectedFinish.type.slice(1)}\nEstimated Range: ₱${totalMin.toLocaleString()} - ₱${totalMax.toLocaleString()}\nProject Location: Latitude ${parseFloat(selectedLat).toFixed(5)}, Longitude ${parseFloat(selectedLng).toFixed(5)}`;
+ 
         qs("printDetails").textContent = details;
-        document
-          .getElementById("estimatePrint")
-          .scrollIntoView({ behavior: "smooth" });
-
+        document.getElementById("estimatePrint").scrollIntoView({ behavior: "smooth" });
+ 
         setTimeout(() => {
           if (isAdminUser) {
-            const confirmAdd = confirm(
-              "Do you want to add this estimate to the project locations page?",
-            );
+            const confirmAdd = confirm("Do you want to add this estimate to the project locations database map system?");
             if (confirmAdd) {
               const data = {
-                project_name:
-                  "Estimate: " +
-                  constructionType.charAt(0).toUpperCase() +
-                  constructionType.slice(1),
-                category:
-                  constructionType.charAt(0).toUpperCase() +
-                  constructionType.slice(1),
+                project_name: "Estimate: " + constructionType.charAt(0).toUpperCase() + constructionType.slice(1),
+                category: constructionType.charAt(0).toUpperCase() + constructionType.slice(1),
                 description: `Area: ${area} sqm, Storeys: ${storeys}, Finish: ${selectedFinish.type}`,
                 latitude: parseFloat(selectedLat),
                 longitude: parseFloat(selectedLng),
@@ -373,17 +399,17 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
               }).then(async (res) => {
-                if (res.ok) alert("Added to project locations successfully!");
+                if (res.ok) alert("Added to dynamic system markers map map tracking!");
                 else {
                   const err = await res.json();
-                  alert("Failed to add location: " + err.error);
+                  alert("Failed injection payload: " + err.error);
                 }
               });
             }
           }
         }, 500);
       }
-
+ 
       async function updateRates() {
         const rates = [];
         document.querySelectorAll(".admin-rate-row").forEach((row) => {
@@ -402,14 +428,14 @@
             body: JSON.stringify({ rates }),
           });
           if (response.ok) {
-            alert("Rates updated successfully!");
+            alert("Rates updated configuration deployed successfully!");
             loadRates();
           }
         } catch (error) {
           console.error(error);
         }
       }
-
+ 
       async function addNewRate() {
         const data = {
           finish_type: qs("newFinishType").value,
@@ -425,16 +451,16 @@
             body: JSON.stringify(data),
           });
           if (response.ok) {
-            alert("Added!");
+            alert("New configuration added!");
             location.reload();
           }
         } catch (error) {
           console.error(error);
         }
       }
-
+ 
       async function deleteRate(id) {
-        if (!confirm("Delete?")) return;
+        if (!confirm("Delete this finish parameter entry?")) return;
         try {
           await fetch(`/api/delete-rate/${id}`, { method: "DELETE" });
           loadRates();
@@ -442,93 +468,96 @@
           console.error(error);
         }
       }
-
+ 
       async function checkAdmin() {
-        const response = await fetch("/api/user");
-        const data = await response.json();
-        if (data.isAdmin) {
-          qs("adminPanel").style.display = "block";
-          isAdminUser = true;
+        try {
+          const response = await fetch("/api/user");
+          const data = await response.json();
+          if (data.isAdmin) {
+            qs("adminPanel").style.display = "block";
+            isAdminUser = true;
+          }
+        } catch(e) {
+          console.log("Session mapping parsed to context: Guest Mode running.");
         }
       }
-
+ 
       function onClear() {
         qs("areaInput").value = "";
         qs("storeysInput").value = "";
-        document
-          .querySelectorAll(".finish-option")
-          .forEach((o) => o.classList.remove("selected"));
+        document.querySelectorAll(".finish-option").forEach((o) => o.classList.remove("selected"));
         selectedFinish = null;
         qs("totalValue").textContent = "₱0.00";
+        qs("printDetails").textContent = "No estimate calculated yet.";
+        if (currentMarker) {
+          map.removeLayer(currentMarker);
+          currentMarker = null;
+        }
+        qs("selectedLat").value = "";
+        qs("selectedLng").value = "";
       }
-
+ 
       estimateBtn.addEventListener("click", onEstimate);
       clearBtn.addEventListener("click", onClear);
-      printBtn.addEventListener("click", () => {
-        window.print();
-      });
-
+      printBtn.addEventListener("click", () => { window.print(); });
+ 
       loadRates();
       checkAdmin();
-
+ 
       const menuToggle = document.getElementById("menuToggle");
       const closeMenu = document.getElementById("closeMenu");
       const sideMenu = document.getElementById("sideMenu");
-      menuToggle.addEventListener("click", () =>
-        sideMenu.classList.add("active"),
-      );
-      closeMenu.addEventListener("click", () =>
-        sideMenu.classList.remove("active"),
-      );
-      document.addEventListener("click", (e) => {
-        if (!sideMenu.contains(e.target) && !menuToggle.contains(e.target)) {
-          sideMenu.classList.remove("active");
-        }
-      });
-
-      // the map
-      const map = L.map("projectMap").setView([7.8289, 123.4346], 10);
+ 
+      if(menuToggle && closeMenu && sideMenu) {
+        menuToggle.addEventListener("click", () => sideMenu.classList.add("active"));
+        closeMenu.addEventListener("click", () => sideMenu.classList.remove("active"));
+        document.addEventListener("click", (e) => {
+          if (!sideMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+            sideMenu.classList.remove("active");
+          }
+        });
+      }
+ 
+      const map = L.map("projectMap").setView([7.8289, 123.4346], 7);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
         attribution: "© OpenStreetMap",
       }).addTo(map);
-
+ 
       let currentMarker = null;
-
+ 
       map.on("click", function (e) {
         const lat = e.latlng.lat;
         const lng = e.latlng.lng;
-
+ 
         qs("selectedLat").value = lat;
         qs("selectedLng").value = lng;
-
+ 
         if (currentMarker) {
           map.removeLayer(currentMarker);
         }
         currentMarker = L.marker([lat, lng]).addTo(map);
       });
-
-      // optionally load past projects to show them on the map as well
+ 
       async function loadMapMarkers() {
         try {
           const response = await fetch("/api/project-locations");
+          if (!response.ok) return;
           const projects = await response.json();
           projects.forEach((project) => {
-            const marker = L.marker([
-              project.latitude,
-              project.longitude,
-            ]).addTo(map);
+            const marker = L.marker([project.latitude, project.longitude]).addTo(map);
+            const imgElement = project.image_url ? `<img src="${project.image_url}" style="width: 100%; margin-top: 5px; border-radius: 4px; max-height:100px; object-fit:cover;">` : "";
             const popupContent = `
-                      <div style="font-family: sans-serif;">
-                          <h4 style="margin: 0 0 5px 0;">${project.project_name}</h4>
-                          <p style="font-size: 12px; margin: 0;">${project.category}</p>
-                          ${project.image_url ? `<img src="${project.image_url}" style="width: 100%; margin-top: 5px; border-radius: 4px;">` : ""}
-                      </div>
-                  `;
+              <div style="font-family: sans-serif; color: #000; min-width: 150px;">
+                <h4 style="margin: 0 0 5px 0; font-size:14px;">${project.project_name}</h4>
+                <p style="font-size: 11px; margin: 0; color: #555;">${project.category}</p>
+                ${imgElement}
+              </div>
+            `;
             marker.bindPopup(popupContent);
           });
         } catch (error) {
-          console.error("Error loading map markers:", error);
+          console.log("Dynamic map markers sync skipped (running localized system state).");
         }
       }
       loadMapMarkers();
